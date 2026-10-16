@@ -1,0 +1,60 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "adfcorsi"
+		},
+		"LS_ASQL_CORSI_password": {
+			"value": ""
+		},
+		"LS_ASQL_WALBER_password": {
+			"value": ""
+		},
+		"LS_AS_CORSI_accountKey": {
+			"value": ""
+		},
+		"LS_COSMOSDB_NOSQL_FINCA_TEST_connectionString": {
+			"value": ""
+		},
+		"LS_SRVPOLYBSE_FILES_password": {
+			"value": ""
+		},
+		"LS_ASQL_CORSI_properties_typeProperties_server": {
+			"value": "synapsecorsosqlserver.database.windows.net"
+		},
+		"LS_ASQL_CORSI_properties_typeProperties_database": {
+			"value": "SQLDatabaseCorso"
+		},
+		"LS_ASQL_CORSI_properties_typeProperties_userName": {
+			"value": "sqladminuser"
+		},
+		"LS_ASQL_WALBER_properties_typeProperties_server": {
+			"value": "ass-dwh-prod-westeu-001.database.windows.net"
+		},
+		"LS_ASQL_WALBER_properties_typeProperties_database": {
+			"value": "asd-dwh-prod-001"
+		},
+		"LS_ASQL_WALBER_properties_typeProperties_userName": {
+			"value": "SqlAdmin"
+		},
+		"LS_AS_CORSI_properties_typeProperties_url": {
+			"value": "https://stsynapsecorsi.dfs.core.windows.net/"
+		},
+		"LS_SRVPOLYBSE_FILES_properties_typeProperties_host": {
+			"value": "\\\\DESKTOP-Q2S6RRH\\Walber"
+		},
+		"LS_SRVPOLYBSE_FILES_properties_typeProperties_userId": {
+			"value": "io"
+		},
+		"PowerBIRest_properties_typeProperties_url": {
+			"value": "https://api.powerbi.com/v1.0/myorg/"
+		},
+		"PowerBIRest_properties_typeProperties_aadResourceId": {
+			"value": "https://analysis.windows.net/powerbi/api"
+		},
+		"Warehouse1_properties_typeProperties_endpoint": {
+			"value": "izqpehknubberpib7tuvlqioha-kdqffzfydate5ngqvfaexrgxjm.datawarehouse.fabric.microsoft.com"
+		}
+	}
+}

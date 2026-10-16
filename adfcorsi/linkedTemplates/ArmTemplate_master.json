@@ -1,0 +1,181 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "adfcorsi"
+		},
+		"LS_ASQL_CORSI_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LS_ASQL_CORSI'"
+		},
+		"LS_ASQL_WALBER_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LS_ASQL_WALBER'"
+		},
+		"LS_AS_CORSI_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'LS_AS_CORSI'"
+		},
+		"LS_COSMOSDB_NOSQL_FINCA_TEST_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LS_COSMOSDB_NOSQL_FINCA_TEST'"
+		},
+		"LS_SRVPOLYBSE_FILES_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LS_SRVPOLYBSE_FILES'"
+		},
+		"LS_ASQL_CORSI_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "synapsecorsosqlserver.database.windows.net"
+		},
+		"LS_ASQL_CORSI_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "SQLDatabaseCorso"
+		},
+		"LS_ASQL_CORSI_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "sqladminuser"
+		},
+		"LS_ASQL_WALBER_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "ass-dwh-prod-westeu-001.database.windows.net"
+		},
+		"LS_ASQL_WALBER_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "asd-dwh-prod-001"
+		},
+		"LS_ASQL_WALBER_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "SqlAdmin"
+		},
+		"LS_AS_CORSI_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://stsynapsecorsi.dfs.core.windows.net/"
+		},
+		"LS_SRVPOLYBSE_FILES_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "\\\\DESKTOP-Q2S6RRH\\Walber"
+		},
+		"LS_SRVPOLYBSE_FILES_properties_typeProperties_userId": {
+			"type": "string",
+			"defaultValue": "io"
+		},
+		"PowerBIRest_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://api.powerbi.com/v1.0/myorg/"
+		},
+		"PowerBIRest_properties_typeProperties_aadResourceId": {
+			"type": "string",
+			"defaultValue": "https://analysis.windows.net/powerbi/api"
+		},
+		"Warehouse1_properties_typeProperties_endpoint": {
+			"type": "string",
+			"defaultValue": "izqpehknubberpib7tuvlqioha-kdqffzfydate5ngqvfaexrgxjm.datawarehouse.fabric.microsoft.com"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "adfcorsi_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"LS_ASQL_CORSI_password": {
+						"value": "[parameters('LS_ASQL_CORSI_password')]"
+					},
+					"LS_ASQL_WALBER_password": {
+						"value": "[parameters('LS_ASQL_WALBER_password')]"
+					},
+					"LS_AS_CORSI_accountKey": {
+						"value": "[parameters('LS_AS_CORSI_accountKey')]"
+					},
+					"LS_COSMOSDB_NOSQL_FINCA_TEST_connectionString": {
+						"value": "[parameters('LS_COSMOSDB_NOSQL_FINCA_TEST_connectionString')]"
+					},
+					"LS_ASQL_CORSI_properties_typeProperties_server": {
+						"value": "[parameters('LS_ASQL_CORSI_properties_typeProperties_server')]"
+					},
+					"LS_ASQL_CORSI_properties_typeProperties_database": {
+						"value": "[parameters('LS_ASQL_CORSI_properties_typeProperties_database')]"
+					},
+					"LS_ASQL_CORSI_properties_typeProperties_userName": {
+						"value": "[parameters('LS_ASQL_CORSI_properties_typeProperties_userName')]"
+					},
+					"LS_ASQL_WALBER_properties_typeProperties_server": {
+						"value": "[parameters('LS_ASQL_WALBER_properties_typeProperties_server')]"
+					},
+					"LS_ASQL_WALBER_properties_typeProperties_database": {
+						"value": "[parameters('LS_ASQL_WALBER_properties_typeProperties_database')]"
+					},
+					"LS_ASQL_WALBER_properties_typeProperties_userName": {
+						"value": "[parameters('LS_ASQL_WALBER_properties_typeProperties_userName')]"
+					},
+					"LS_AS_CORSI_properties_typeProperties_url": {
+						"value": "[parameters('LS_AS_CORSI_properties_typeProperties_url')]"
+					},
+					"PowerBIRest_properties_typeProperties_url": {
+						"value": "[parameters('PowerBIRest_properties_typeProperties_url')]"
+					},
+					"PowerBIRest_properties_typeProperties_aadResourceId": {
+						"value": "[parameters('PowerBIRest_properties_typeProperties_aadResourceId')]"
+					},
+					"Warehouse1_properties_typeProperties_endpoint": {
+						"value": "[parameters('Warehouse1_properties_typeProperties_endpoint')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "adfcorsi_ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"LS_SRVPOLYBSE_FILES_password": {
+						"value": "[parameters('LS_SRVPOLYBSE_FILES_password')]"
+					},
+					"LS_SRVPOLYBSE_FILES_properties_typeProperties_host": {
+						"value": "[parameters('LS_SRVPOLYBSE_FILES_properties_typeProperties_host')]"
+					},
+					"LS_SRVPOLYBSE_FILES_properties_typeProperties_userId": {
+						"value": "[parameters('LS_SRVPOLYBSE_FILES_properties_typeProperties_userId')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'adfcorsi_ArmTemplate_0')]"
+			]
+		}
+	]
+}
