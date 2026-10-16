@@ -1828,6 +1828,104 @@
 						}
 					}
 				]
+			},
+			{
+				"name": "Copy_with_MI_PARTIAL_TABLE_copy1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "POST",
+						"requestBody": "{\n  \"queries\": [\n    {\n      \"query\": \"EVALUATE TOPN(10000000, SELECTCOLUMNS('CV_DAILY_ORDER_DETAILS', \\\"brand\\\", 'CV_DAILY_ORDER_DETAILS'[brand], \\\"brandCode\\\", 'CV_DAILY_ORDER_DETAILS'[Brand Code], \\\"channelCode\\\", 'CV_DAILY_ORDER_DETAILS'[Channel Code], \\\"Gross Order\\\",[Gross Order]))\"\n    }\n  ]\n}\n",
+						"additionalHeaders": {
+							"Content-Type": "application/json"
+						},
+						"paginationRules": {
+							"supportRFC5988": "true"
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "DROP TABLE dbo.PBIExport",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"tableOption": "autoCreate",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "['[brand]']"
+								},
+								"sink": {
+									"name": "brand"
+								}
+							},
+							{
+								"source": {
+									"path": "['[brandCode]']"
+								},
+								"sink": {
+									"name": "brandCode",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['[channelCode]']"
+								},
+								"sink": {
+									"name": "channelCode",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['[Gross Order]']"
+								},
+								"sink": {
+									"name": "GrosdsOrder",
+									"type": "Decimal"
+								}
+							}
+						],
+						"collectionReference": "$['results'][0]['tables'][0]['rows']",
+						"mapComplexValuesToString": true
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_REST_PBI_API",
+						"type": "DatasetReference",
+						"parameters": {
+							"AdminAPI": "datasets/6f204b16-2549-48d3-a88b-e4d43145eb88/executeQueries"
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_ASQL_CORSI_GENERIC",
+						"type": "DatasetReference",
+						"parameters": {
+							"Schema": "dbo",
+							"Table": "PBIExport"
+						}
+					}
+				]
 			}
 		],
 		"annotations": [],
