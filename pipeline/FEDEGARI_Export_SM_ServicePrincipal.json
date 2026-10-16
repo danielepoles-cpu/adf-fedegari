@@ -1,0 +1,238 @@
+{
+	"name": "FEDEGARI_Export_SM_ServicePrincipal",
+	"properties": {
+		"activities": [
+			{
+				"name": "GetAzureToken",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "POST",
+					"headers": {
+						"Content-Type": "application/x-www-form-urlencoded"
+					},
+					"url": "https://login.microsoftonline.com/1df26046-a04d-4842-bd01-fce955c10e38/oauth2/v2.0/token",
+					"body": "client_id=60ea7965-5e15-441e-a395-3e07c4e5647f&scope=https://analysis.windows.net/powerbi/api/.default&client_secret=I1T8Q~qVmTkcUQP-z48NGC0ICrSRKQTkYFRXPaLx&grant_type=client_credentials"
+				}
+			},
+			{
+				"name": "SaveAzureToken",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "GetAzureToken",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "access_token",
+					"value": {
+						"value": "@activity('GetAzureToken').output.access_token",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "ExecuteQuery",
+				"type": "WebActivity",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "SaveAzureToken",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "POST",
+					"headers": {
+						"Authorization": {
+							"value": "@concat('Bearer ', variables('access_token'))",
+							"type": "Expression"
+						},
+						"Content-Type": "application/json"
+					},
+					"url": "https://api.powerbi.com/v1.0/myorg/groups/3cb61394-7389-4315-affa-2105ce84cbb6/datasets/d601ceba-8141-44bb-871c-d8a2049d7deb/ExecuteQueries",
+					"body": {
+						"queries": [
+							{
+								"query": "EVALUATE TOPN(100, 'CV_DAILY_ORDER_DETAILS')"
+							}
+						]
+					}
+				}
+			},
+			{
+				"name": "ExecuteQuery_Type2",
+				"type": "WebActivity",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "SaveAzureToken",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "POST",
+					"headers": {
+						"Authorization": {
+							"value": "@concat('Bearer ', variables('access_token'))",
+							"type": "Expression"
+						},
+						"Content-Type": "application/json"
+					},
+					"url": "https://api.powerbi.com/v1.0/myorg/datasets/d601ceba-8141-44bb-871c-d8a2049d7deb/executeQueries",
+					"body": {
+						"queries": [
+							{
+								"query": "EVALUATE TOPN(100, 'v6SENSE_STATS')"
+							}
+						]
+					},
+					"authentication": {
+						"type": "MSI"
+					}
+				}
+			},
+			{
+				"name": "ExecuteQuery_MI",
+				"type": "WebActivity",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "SaveAzureToken",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "POST",
+					"headers": {
+						"Content-Type": "application/json"
+					},
+					"url": "https://api.powerbi.com/v1.0/myorg/datasets/fa3c94a0-9fc7-4f18-bf19-f898e2f22272/executeQueries",
+					"body": {
+						"queries": [
+							{
+								"query": "EVALUATE TOPN(100, 'CV_DAILY_ORDER_DETAILS')"
+							}
+						]
+					},
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://analysis.windows.net/powerbi/api"
+					}
+				}
+			},
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "POST",
+						"requestBody": "{\"queries\":[{\"query\":\"EVALUATE TOPN(100, 'CV_DAILY_ORDER_DETAILS')\"}]}",
+						"additionalHeaders": {
+							"Content-Type": "application/json"
+						},
+						"paginationRules": {
+							"supportRFC5988": "true"
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"tableOption": "autoCreate",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_REST_PBI_API",
+						"type": "DatasetReference",
+						"parameters": {
+							"AdminAPI": "datasets/fa3c94a0-9fc7-4f18-bf19-f898e2f22272/executeQueries"
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_ASQL_GENERIC",
+						"type": "DatasetReference",
+						"parameters": {
+							"Schema": "dbo",
+							"Table": "PBIDataset"
+						}
+					}
+				]
+			}
+		],
+		"variables": {
+			"access_token": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2025-05-06T10:15:54Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

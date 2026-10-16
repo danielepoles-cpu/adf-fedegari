@@ -1,0 +1,87 @@
+{
+	"name": "PL_LOOPPDV",
+	"properties": {
+		"activities": [
+			{
+				"name": "PDV",
+				"type": "GetMetadata",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "DS_AS_DELIMITED",
+						"type": "DatasetReference",
+						"parameters": {
+							"Folder": "STAGE"
+						}
+					},
+					"fieldList": [
+						"childItems"
+					],
+					"storeSettings": {
+						"type": "AzureBlobFSReadSettings",
+						"recursive": true,
+						"enablePartitionDiscovery": false
+					},
+					"formatSettings": {
+						"type": "DelimitedTextReadSettings"
+					}
+				}
+			},
+			{
+				"name": "ForEach_PDV",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "PDV",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('PDV').output.childItems",
+						"type": "Expression"
+					},
+					"isSequential": false,
+					"activities": [
+						{
+							"name": "LOOP_MONTHS",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
+							"policy": {
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "PL_LOOPPDV_LOOPMONTH",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true,
+								"parameters": {
+									"PDV": {
+										"value": "@item().name",
+										"type": "Expression"
+									}
+								}
+							}
+						}
+					]
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2024-10-31T17:49:32Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

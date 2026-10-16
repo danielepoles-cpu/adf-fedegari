@@ -1,0 +1,71 @@
+{
+	"name": "PL_Finca_Warehouse",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "ParquetSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "ParquetReadSettings"
+						}
+					},
+					"sink": {
+						"type": "WarehouseSink",
+						"preCopyScript": "truncate table dbo.mara",
+						"allowCopyCommand": true,
+						"tableOption": "autoCreate",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": true,
+					"stagingSettings": {
+						"linkedServiceName": {
+							"referenceName": "LS_AS_CORSI",
+							"type": "LinkedServiceReference"
+						},
+						"path": "stagearea/fabric",
+						"enableCompression": true
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_GENERIC_PARQUET",
+						"type": "DatasetReference",
+						"parameters": {
+							"filename": "mara.parquet"
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_WH_Fabric",
+						"type": "DatasetReference",
+						"parameters": {
+							"Schema": "dbo",
+							"Table": "mara"
+						}
+					}
+				]
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2026-02-23T08:04:16Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

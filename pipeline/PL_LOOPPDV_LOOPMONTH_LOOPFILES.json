@@ -1,0 +1,106 @@
+{
+	"name": "PL_LOOPPDV_LOOPMONTH_LOOPFILES",
+	"properties": {
+		"activities": [
+			{
+				"name": "FILES",
+				"type": "GetMetadata",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "DS_AS_BINARY",
+						"type": "DatasetReference",
+						"parameters": {
+							"Sottocartella": {
+								"value": "@concat('STAGE/',pipeline().parameters.PDV,'/',pipeline().parameters.MONTH)",
+								"type": "Expression"
+							}
+						}
+					},
+					"fieldList": [
+						"childItems"
+					],
+					"storeSettings": {
+						"type": "AzureBlobFSReadSettings",
+						"recursive": true,
+						"enablePartitionDiscovery": false
+					},
+					"formatSettings": {
+						"type": "BinaryReadSettings"
+					}
+				}
+			},
+			{
+				"name": "FOREACH_FILE",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "FILES",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('FILES').output.childItems",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "LOAD_FILE",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
+							"policy": {
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "PL_LOOPPDV_LOOPMONTH_LOOPFILE_LOAD",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true,
+								"parameters": {
+									"PDV": {
+										"value": "@pipeline().parameters.PDV",
+										"type": "Expression"
+									},
+									"MONTH": {
+										"value": "@pipeline().parameters.MONTH",
+										"type": "Expression"
+									},
+									"FILE": {
+										"value": "@item().name",
+										"type": "Expression"
+									}
+								}
+							}
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"PDV": {
+				"type": "string"
+			},
+			"MONTH": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-10-31T16:36:50Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

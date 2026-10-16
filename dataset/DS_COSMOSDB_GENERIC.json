@@ -1,0 +1,16 @@
+{
+	"name": "DS_COSMOSDB_GENERIC",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_COSMOSDB_NOSQL_FINCA_TEST",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "CosmosDbSqlApiCollection",
+		"schema": {},
+		"typeProperties": {
+			"collectionName": "Container1"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

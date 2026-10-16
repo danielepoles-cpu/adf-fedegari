@@ -1,0 +1,6 @@
+{
+	"name": "ir-srvmsftlab",
+	"properties": {
+		"type": "SelfHosted"
+	}
+}

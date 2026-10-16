@@ -1,0 +1,32 @@
+{
+	"name": "DS_WH_Fabric",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Warehouse1",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"Schema": {
+				"type": "string",
+				"defaultValue": "dbo"
+			},
+			"Table": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "WarehouseTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": {
+				"value": "@dataset().Schema",
+				"type": "Expression"
+			},
+			"table": {
+				"value": "@dataset().Table",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

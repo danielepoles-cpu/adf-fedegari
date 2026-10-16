@@ -1,0 +1,170 @@
+{
+	"name": "pipeline1_VERIFICAREFRESH",
+	"properties": {
+		"activities": [
+			{
+				"name": "Login",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "POST",
+					"headers": {
+						"Content-Type": "application/x-www-form-urlencoded"
+					},
+					"url": {
+						"value": "@concat('https://login.microsoftonline.com/',pipeline().parameters.TenantID,'/oauth2/token')",
+						"type": "Expression"
+					},
+					"body": {
+						"value": "@concat('grant_type=client_credentials&resource=https://*.asazure.windows.net&client_id=',pipeline().parameters.ClientID,'&client_secret=',encodeUriComponent(pipeline().parameters.ClientSecret))",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "StartProcessingAzureAS",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "Login",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "POST",
+					"headers": {
+						"Authorization": {
+							"value": "@concat(string(activity('Login').output.token_type), ' ', string(activity('Login').output.access_token))",
+							"type": "Expression"
+						}
+					},
+					"url": {
+						"value": "@concat('https://', pipeline().parameters.Region, '.asazure.windows.net/servers/', pipeline().parameters.Server, '/models/', pipeline().parameters.DatabaseName, '/refreshes')",
+						"type": "Expression"
+					},
+					"body": {
+						"Type": "Full",
+						"CommitMode": "transactional",
+						"MaxParallelism": 10,
+						"RetryCount": 2
+					}
+				}
+			},
+			{
+				"name": "Until1",
+				"type": "Until",
+				"dependsOn": [
+					{
+						"activity": "StartProcessingAzureAS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@not(contains(activity('GetAzureASRefreshStatus').output.Response, 'inProgress'))",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "GetAzureASRefreshStatus",
+							"type": "WebActivity",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"method": "GET",
+								"headers": {
+									"Authorization": {
+										"value": "@concat(string(activity('Login').output.token_type), ' ', string(activity('Login').output.access_token))",
+										"type": "Expression"
+									}
+								},
+								"url": {
+									"value": "@concat('https://',pipeline().parameters.Region,'.asazure.windows.net/servers/',pipeline().parameters.Server,'/models/',pipeline().parameters.DatabaseName,'/refreshes/')",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Wait1",
+							"type": "Wait",
+							"dependsOn": [
+								{
+									"activity": "GetAzureASRefreshStatus",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"waitTimeInSeconds": 5
+							}
+						}
+					],
+					"timeout": "0.12:00:00"
+				}
+			}
+		],
+		"parameters": {
+			"TenantID": {
+				"type": "string",
+				"defaultValue": "1df26046-a04d-4842-bd01-fce955c10e38"
+			},
+			"ClientID": {
+				"type": "string",
+				"defaultValue": "b4e6a633-b9d8-4f3e-9bee-8d6757392d74"
+			},
+			"ClientSecret": {
+				"type": "string",
+				"defaultValue": "yaf8Q~61u_P6~7SiDDErjDStVxyfdxqAQZC.VayE"
+			},
+			"SubscriptionID": {
+				"type": "string",
+				"defaultValue": "2147a15b-5f4e-43d8-a93a-784007dd2408"
+			},
+			"Region": {
+				"type": "string",
+				"defaultValue": "northeurope"
+			},
+			"Server": {
+				"type": "string",
+				"defaultValue": "aascorsi"
+			},
+			"DatabaseName": {
+				"type": "string",
+				"defaultValue": "AASCorso_DPOLES"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-10-19T09:27:43Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,32 @@
+{
+	"name": "DS_AS_BINARY_FILE",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_AS_CORSI",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"Folder": {
+				"type": "string",
+				"defaultValue": " "
+			},
+			"FileName": {
+				"type": "string",
+				"defaultValue": " "
+			}
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": {
+					"value": "@dataset().Folder",
+					"type": "Expression"
+				},
+				"fileSystem": "pdv-data"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,15 @@
+{
+	"name": "PowerBIRest",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"description": "Linked Services to connect to PowerBI and Execute APIs",
+		"annotations": [],
+		"type": "RestService",
+		"typeProperties": {
+			"url": "https://api.powerbi.com/v1.0/myorg/",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "ManagedServiceIdentity",
+			"aadResourceId": "https://analysis.windows.net/powerbi/api"
+		}
+	}
+}

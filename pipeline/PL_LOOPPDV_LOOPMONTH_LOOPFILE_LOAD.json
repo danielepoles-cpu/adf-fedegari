@@ -1,0 +1,196 @@
+{
+	"name": "PL_LOOPPDV_LOOPMONTH_LOOPFILE_LOAD",
+	"properties": {
+		"activities": [
+			{
+				"name": "Move_To_Backup",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Load_Staging_Azure",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "BinarySource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"deleteFilesAfterCompletion": true
+						},
+						"formatSettings": {
+							"type": "BinaryReadSettings"
+						}
+					},
+					"sink": {
+						"type": "BinarySink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings",
+							"copyBehavior": "PreserveHierarchy"
+						}
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_AS_BINARY_FILE",
+						"type": "DatasetReference",
+						"parameters": {
+							"Folder": {
+								"value": "@concat('STAGE/',pipeline().parameters.PDV,'/',pipeline().parameters.MONTH,'/')",
+								"type": "Expression"
+							},
+							"FileName": {
+								"value": "@pipeline().parameters.FILE",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_AS_BINARY_FILE",
+						"type": "DatasetReference",
+						"parameters": {
+							"Folder": {
+								"value": "@concat('BACKUP/',pipeline().parameters.PDV,'/',pipeline().parameters.MONTH,'/',utcNow('yyyy-MM-dd'))",
+								"type": "Expression"
+							},
+							"FileName": {
+								"value": "@pipeline().parameters.FILE",
+								"type": "Expression"
+							}
+						}
+					}
+				]
+			},
+			{
+				"name": "Load_Staging_Azure",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"additionalColumns": [
+							{
+								"name": "FolderSrc",
+								"value": {
+									"value": "@concat('STAGE/',pipeline().parameters.PDV,'/',pipeline().parameters.MONTH)",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "FolderBck",
+								"value": {
+									"value": "@concat('BACKUP/',pipeline().parameters.PDV,'/',pipeline().parameters.MONTH,'/',utcNow('yyyy-MM-dd'))",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "FileName",
+								"value": "$$FILENAME"
+							},
+							{
+								"name": "Date",
+								"value": {
+									"value": "@utcNow('yyyy-MM-dd')",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "PDV",
+								"value": {
+									"value": "@pipeline().parameters.PDV",
+									"type": "Expression"
+								}
+							}
+						],
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": false,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"tableOption": "autoCreate",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_AS_DELIMITED_FILE",
+						"type": "DatasetReference",
+						"parameters": {
+							"Folder": {
+								"value": "@concat('STAGE/',pipeline().parameters.PDV,'/',pipeline().parameters.MONTH)",
+								"type": "Expression"
+							},
+							"FileName": {
+								"value": "@pipeline().parameters.FILE",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_ASQL_GENERIC",
+						"type": "DatasetReference",
+						"parameters": {
+							"Schema": "stg",
+							"Table": "Files"
+						}
+					}
+				]
+			}
+		],
+		"parameters": {
+			"PDV": {
+				"type": "string"
+			},
+			"MONTH": {
+				"type": "string"
+			},
+			"FILE": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-11-04T08:41:25Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

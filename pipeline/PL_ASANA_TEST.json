@@ -1,0 +1,30 @@
+{
+	"name": "PL_ASANA_TEST",
+	"properties": {
+		"activities": [
+			{
+				"name": "Web11",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "GET",
+					"headers": {
+						"authorization": "Bearer 2/1207643716288585/1209593957263390:1fa7a29b7bc1e398d05f34cdc321584b"
+					},
+					"url": "https://app.asana.com/api/1.0/projects?limit=10&workspace=31476976129966"
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2025-06-18T13:52:44Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

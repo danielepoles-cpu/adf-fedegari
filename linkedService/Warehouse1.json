@@ -1,0 +1,14 @@
+{
+	"name": "Warehouse1",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "Warehouse",
+		"typeProperties": {
+			"endpoint": "izqpehknubberpib7tuvlqioha-kdqffzfydate5ngqvfaexrgxjm.datawarehouse.fabric.microsoft.com",
+			"artifactId": "98f3a1a4-1201-4749-9c91-5cb381cb1513",
+			"workspaceId": "e452e050-18b8-4e26-b4d0-a9404bc4d74b",
+			"authenticationType": "SystemAssignedManagedIdentity"
+		}
+	}
+}

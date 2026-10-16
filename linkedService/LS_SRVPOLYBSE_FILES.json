@@ -1,0 +1,17 @@
+{
+	"name": "LS_SRVPOLYBSE_FILES",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "FileServer",
+		"typeProperties": {
+			"host": "\\\\DESKTOP-Q2S6RRH\\Walber",
+			"userId": "io",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIzMzE2YjExYS1lYjU5LTQ3MjctYjFkNC1iNWI2NGM4NjgzMGQiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "ir-dp-hyperv",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

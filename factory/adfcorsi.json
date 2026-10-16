@@ -1,0 +1,18 @@
+{
+	"name": "adfcorsi",
+	"properties": {
+		"globalConfigurations": {
+			"mountedConfiguration": []
+		},
+		"trustModeClaimForMi": {
+			"value": "Disabled",
+			"editable": true
+		}
+	},
+	"location": "northeurope",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "3fe68224-d628-446e-8b89-0cffa9e1e97b",
+		"tenantId": "1df26046-a04d-4842-bd01-fce955c10e38"
+	}
+}

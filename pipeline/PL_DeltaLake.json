@@ -1,0 +1,104 @@
+{
+	"name": "PL_DeltaLake",
+	"properties": {
+		"activities": [
+			{
+				"name": "SearchTables",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT TOP 10\n    s.name AS NomeSchema,\n    t.name AS NomeTabella\nFROM \n    sys.tables t\nINNER JOIN \n    sys.schemas s ON t.schema_id = s.schema_id\nORDER BY \n    NomeSchema, \n    NomeTabella;",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "DS_ASQL_CORSI_GENERIC",
+						"type": "DatasetReference",
+						"parameters": {
+							"Schema": "-",
+							"Table": "-"
+						}
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "CiclaTabelle",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "SearchTables",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('SearchTables').output.value",
+						"type": "Expression"
+					},
+					"batchCount": 10,
+					"activities": [
+						{
+							"name": "DF_CreaDeltaLake",
+							"type": "ExecuteDataFlow",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"dataflow": {
+									"referenceName": "DF_DeltaLake",
+									"type": "DataFlowReference",
+									"parameters": {
+										"NomeTabella": {
+											"value": "'@{item().NomeTabella}'",
+											"type": "Expression"
+										}
+									},
+									"datasetParameters": {
+										"DFDeltaLake": {
+											"Schema": {
+												"value": "@item().NomeSchema",
+												"type": "Expression"
+											},
+											"Table": {
+												"value": "@item().NomeTabella",
+												"type": "Expression"
+											}
+										}
+									}
+								},
+								"compute": {
+									"coreCount": 8,
+									"computeType": "General"
+								},
+								"traceLevel": "Fine"
+							}
+						}
+					]
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2026-02-23T08:45:10Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,23 @@
+{
+	"name": "DS_SCONTRINI",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_SRVPOLYBSE_FILES",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "FileServerLocation",
+				"fileName": "DA240427"
+			},
+			"columnDelimiter": "",
+			"escapeChar": "\\",
+			"firstRowAsHeader": false,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

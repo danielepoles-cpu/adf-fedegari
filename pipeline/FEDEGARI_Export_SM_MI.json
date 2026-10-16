@@ -1,0 +1,1837 @@
+{
+	"name": "FEDEGARI_Export_SM_MI",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy_with_MI_FULLTABLE",
+				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "POST",
+						"requestBody": "{\"queries\":[{\"query\":\"EVALUATE TOPN(100000, 'CV_DAILY_ORDER_DETAILS')\"}]}",
+						"additionalHeaders": {
+							"Content-Type": "application/json"
+						},
+						"paginationRules": {
+							"supportRFC5988": "true"
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "DROP TABLE dbo.PBIExport",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"tableOption": "autoCreate",
+						"disableMetricsCollection": true
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Brand]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Brand]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Brand Code]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Brand Code]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Brand Group]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Brand Group]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Brand Group Code]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Brand Group Code]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Brand Type]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Brand Type]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Brand Type Original]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Brand Type Original]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[CALENDAR_DATE_FILTER]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[CALENDAR_DATE_FILTER]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Channel Code]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Channel Code]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Channel Code.1]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Channel Code.1]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Channel of Trade]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Channel of Trade]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Channel of Trade Code]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Channel of Trade Code]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Company]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Company]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Company Code]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Company Code]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Convention Code]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Convention Code]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Country ShipTo]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Country ShipTo]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Country ShipTo Code]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Country ShipTo Code]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Country SoldTo]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Country SoldTo]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Country SoldTo Code]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Country SoldTo Code]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[COUNTRY_SHIP_TO_GER]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[COUNTRY_SHIP_TO_GER]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Currency]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Currency]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Customer Door]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Customer Door]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Customer Door Code]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Customer Door Code]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Customer Payer]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Customer Payer]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Customer Payer Code]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Customer Payer Code]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Customer Segmentation]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Customer Segmentation]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Customer Segmentation Code]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Customer Segmentation Code]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Customer ShipTo]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Customer ShipTo]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Customer ShipTo Code]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Customer ShipTo Code]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Customer SoldTo]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Customer SoldTo]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Customer SoldTo Code]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Customer SoldTo Code]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[CUSTOMER_GROUP_DESC_GER]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[CUSTOMER_GROUP_DESC_GER]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[CUSTOMER_SHIP_TO_DESC_GER]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[CUSTOMER_SHIP_TO_DESC_GER]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[DATA_FINE_CP_SAC]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[DATA_FINE_CP_SAC]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[DATA_INIZIO_CP_SAC]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[DATA_INIZIO_CP_SAC]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Date]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Date]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[District]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[District]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[District Code]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[District Code]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Doc Type]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Doc Type]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Dynamic Agent]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Dynamic Agent]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Dynamic Agent Code]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Dynamic Agent Code]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Fitting]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Fitting]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[FLAG_CLOSED_WEEK]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[FLAG_CLOSED_WEEK]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[LAST_UPDATE_DATE]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[LAST_UPDATE_DATE]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Material ]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Material ]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Material Gender Code]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Material Gender Code]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Material Group]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Material Group]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Material Group Code]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Material Group Code]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Material Type Code]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Material Type Code]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Matrix]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Matrix]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Model Name]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Model Name]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Month]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Month]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Order Creation Date]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Order Creation Date]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Order Creation Month]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Order Creation Month]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Order Creation Week]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Order Creation Week]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Order Creation Year]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Order Creation Year]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Order Reason Code]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Order Reason Code]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Order Type]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Order Type]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Plant Code]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Plant Code]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Prod Segment Code]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Prod Segment Code]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Product Segmentation]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Product Segmentation]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Purchase Order Type]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Purchase Order Type]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[PURCHASE_ORDER_CHANNEL]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[PURCHASE_ORDER_CHANNEL]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Quarter]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Quarter]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Release]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Release]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Request Delivery Date]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Request Delivery Date]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Request Delivery Month]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Request Delivery Month]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Request Delivery Week]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Request Delivery Week]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Request Delivery Year]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Request Delivery Year]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Responsibility]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Responsibility]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Responsibility Code]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Responsibility Code]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Risk Factor]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Risk Factor]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Sales Material Status]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Sales Material Status]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Sales Org]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Sales Org]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Sales Org Code]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Sales Org Code]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[SKU]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[SKU]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[SoldTo Hierarchy]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[SoldTo Hierarchy]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[SoldTo Hierarchy Code]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[SoldTo Hierarchy Code]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Static Agent]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Static Agent]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Static Agent Code]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Static Agent Code]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Week]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Week]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Year]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Year]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Delta Gross Qty %]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Delta Gross Qty %]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Delta Gross Returns %]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Delta Gross Returns %]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Delta Gross Sales %]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Delta Gross Sales %]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Delta Gross Turnover %]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Delta Gross Turnover %]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Delta Net Qty %]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Delta Net Qty %]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Delta Net Returns %]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Delta Net Returns %]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Delta Net Turnover %]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Delta Net Turnover %]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Delta Returns Qty %]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Delta Returns Qty %]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Discount Returns Agreement Cancellation PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Discount Returns Agreement Cancellation PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Discount Returns Agreement CP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Discount Returns Agreement CP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Discount Returns Agreement Net of Cancellation CP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Discount Returns Agreement Net of Cancellation CP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Discount Returns Agreement Net of Cancellation PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Discount Returns Agreement Net of Cancellation PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Discount Returns Agreement PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Discount Returns Agreement PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Discount Returns Cancellation PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Discount Returns Cancellation PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Discount Returns CP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Discount Returns CP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Discount Returns Extra Cancellation PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Discount Returns Extra Cancellation PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Discount Returns Extra CP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Discount Returns Extra CP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Discount Returns Extra Net of Cancellation CP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Discount Returns Extra Net of Cancellation CP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Discount Returns Extra Net of Cancellation PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Discount Returns Extra Net of Cancellation PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Discount Returns Extra PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Discount Returns Extra PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Discount Returns Net of Cancellation CP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Discount Returns Net of Cancellation CP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Discount Returns Net of Cancellation PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Discount Returns Net of Cancellation PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Discount Returns Other Cancellation PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Discount Returns Other Cancellation PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Discount Returns Other CP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Discount Returns Other CP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Discount Returns Other Net of Cancellation CP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Discount Returns Other Net of Cancellation CP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Discount Returns Other Net of Cancellation PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Discount Returns Other Net of Cancellation PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Discount Returns Other PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Discount Returns Other PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Discount Returns PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Discount Returns PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Discount Returns Promo Cancellation PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Discount Returns Promo Cancellation PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Discount Returns Promo CP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Discount Returns Promo CP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Discount Returns Promo Net of Cancellation PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Discount Returns Promo Net of Cancellation PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Discount Returns Promo PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Discount Returns Promo PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Gross Qty Cancellation PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Gross Qty Cancellation PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Gross Qty CP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Gross Qty CP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Gross Qty Net Of Cancellation CP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Gross Qty Net Of Cancellation CP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Gross Qty Net Of Cancellation PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Gross Qty Net Of Cancellation PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Gross Qty PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Gross Qty PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Gross Returns Cancellation PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Gross Returns Cancellation PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Gross Returns CP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Gross Returns CP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Gross Returns Net of Cancellation CP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Gross Returns Net of Cancellation CP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Gross Returns Net of Cancellation PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Gross Returns Net of Cancellation PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Gross Returns PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Gross Returns PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Gross Sales Cancellation PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Gross Sales Cancellation PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Gross Sales CP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Gross Sales CP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Gross Sales Net of Cancellation CP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Gross Sales Net of Cancellation CP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Gross Sales Net of Cancellation PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Gross Sales Net of Cancellation PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Gross Sales PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Gross Sales PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Gross Turnover Cancellation PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Gross Turnover Cancellation PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Gross Turnover CP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Gross Turnover CP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Gross Turnover Net Of Cancellation CP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Gross Turnover Net Of Cancellation CP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Gross Turnover Net Of Cancellation PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Gross Turnover Net Of Cancellation PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Gross Turnover PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Gross Turnover PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Invoice Discount Agreement Cancellation PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Invoice Discount Agreement Cancellation PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Invoice Discount Agreement CP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Invoice Discount Agreement CP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Invoice Discount Agreement Net of Cancellation CP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Invoice Discount Agreement Net of Cancellation CP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Invoice Discount Agreement Net of Cancellation PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Invoice Discount Agreement Net of Cancellation PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Invoice Discount Agreement PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Invoice Discount Agreement PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Invoice Discount Cancellation PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Invoice Discount Cancellation PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Invoice Discount CP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Invoice Discount CP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Invoice Discount Extra Cancellation PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Invoice Discount Extra Cancellation PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Invoice Discount Extra CP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Invoice Discount Extra CP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Invoice Discount Extra Net of Cancellation CP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Invoice Discount Extra Net of Cancellation CP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Invoice Discount Extra Net of Cancellation PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Invoice Discount Extra Net of Cancellation PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Invoice Discount Extra PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Invoice Discount Extra PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Invoice Discount Net of Cancellation CP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Invoice Discount Net of Cancellation CP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Invoice Discount Net of Cancellation PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Invoice Discount Net of Cancellation PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Invoice Discount Other Cancellation PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Invoice Discount Other Cancellation PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Invoice Discount Other CP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Invoice Discount Other CP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Invoice Discount Other Net of Cancellation CP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Invoice Discount Other Net of Cancellation CP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Invoice Discount Other Net of Cancellation PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Invoice Discount Other Net of Cancellation PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Invoice Discount Other PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Invoice Discount Other PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Invoice Discount PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Invoice Discount PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Invoice Discount Promo Cancellation PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Invoice Discount Promo Cancellation PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Invoice Discount Promo CP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Invoice Discount Promo CP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Invoice Discount Promo Net of Cancellation CP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Invoice Discount Promo Net of Cancellation CP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Invoice Discount Promo Net of Cancellation PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Invoice Discount Promo Net of Cancellation PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Invoice Discount Promo PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Invoice Discount Promo PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Net Qty Cancellation PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Net Qty Cancellation PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Net Qty CP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Net Qty CP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Net Qty Net Of Cancellation CP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Net Qty Net Of Cancellation CP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Net Qty Net Of Cancellation PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Net Qty Net Of Cancellation PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Net Qty PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Net Qty PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Net Returns Cancellation PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Net Returns Cancellation PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Net Returns CP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Net Returns CP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Net Returns Net of Cancellation CP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Net Returns Net of Cancellation CP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Net Returns Net of Cancellation PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Net Returns Net of Cancellation PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Net Returns PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Net Returns PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Net Turnover Cancellation PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Net Turnover Cancellation PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Net Turnover CP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Net Turnover CP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Net Turnover Net Of Cancellation CP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Net Turnover Net Of Cancellation CP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Net Turnover Net Of Cancellation PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Net Turnover Net Of Cancellation PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Net Turnover PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Net Turnover PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Retail Price Europe Eur CP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Retail Price Europe Eur CP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Retail Price Europe Eur CP Cancellation]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Retail Price Europe Eur CP Cancellation]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Retail Price Europe Eur CP Net of Cancellation]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Retail Price Europe Eur CP Net of Cancellation]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Retail Price Europe Eur PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Retail Price Europe Eur PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Retail Price Europe Eur PP Cancellation]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Retail Price Europe Eur PP Cancellation]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Retail Price Europe Eur PP Net of Cancellation]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Retail Price Europe Eur PP Net of Cancellation]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Returns Qty Cancellation PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Returns Qty Cancellation PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Returns Qty CP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Returns Qty CP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Returns Qty Net of Cancellation CP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Returns Qty Net of Cancellation CP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Returns Qty Net of Cancellation PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Returns Qty Net of Cancellation PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Returns Qty PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Returns Qty PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[RETURNS_DISCOUNT_PROMO_NET_OF_CANCEL_CP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[RETURNS_DISCOUNT_PROMO_NET_OF_CANCEL_CP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[STD Case Cost CP Cancellation]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[STD Case Cost CP Cancellation]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[STD Case Cost CP Net of Cancellation]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[STD Case Cost CP Net of Cancellation]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[STD Case Cost PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[STD Case Cost PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[STD Case Cost PP Cancellation]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[STD Case Cost PP Cancellation]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[STD Case Cost PP Net of Cancellation]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[STD Case Cost PP Net of Cancellation]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[STD Direct Cost Cancellation CP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[STD Direct Cost Cancellation CP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[STD Direct Cost Cancellation PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[STD Direct Cost Cancellation PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[STD Direct Cost CP Net of Cancellation]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[STD Direct Cost CP Net of Cancellation]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[STD Direct Cost PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[STD Direct Cost PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[STD Direct Cost PP Net of Cancellation]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[STD Direct Cost PP Net of Cancellation]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[STD ToolingCost Canc CP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[STD ToolingCost Canc CP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[STD ToolingCost Canc PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[STD ToolingCost Canc PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[STD ToolingCost CP Net of Cancellation]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[STD ToolingCost CP Net of Cancellation]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[STD ToolingCost PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[STD ToolingCost PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[STD ToolingCost PP Net of Cancellation]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[STD ToolingCost PP Net of Cancellation]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Wholesale Price Europe Eur CP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Wholesale Price Europe Eur CP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Wholesale Price Europe Eur CP Cancellation]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Wholesale Price Europe Eur CP Cancellation]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Wholesale Price Europe Eur CP Net of Cancellation]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Wholesale Price Europe Eur CP Net of Cancellation]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Wholesale Price Europe Eur PP]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Wholesale Price Europe Eur PP]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Wholesale Price Europe Eur PP Cancellation]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Wholesale Price Europe Eur PP Cancellation]"
+								}
+							},
+							{
+								"source": {
+									"path": "['CV_DAILY_ORDER_DETAILS[Wholesale Price Europe Eur PP Net of Cancellation]']"
+								},
+								"sink": {
+									"name": "CV_DAILY_ORDER_DETAILS[Wholesale Price Europe Eur PP Net of Cancellation]"
+								}
+							},
+							{
+								"source": {
+									"path": "$['results'][0]['error']['code']"
+								},
+								"sink": {
+									"name": "code"
+								}
+							},
+							{
+								"source": {
+									"path": "$['results'][0]['error']['message']"
+								},
+								"sink": {
+									"name": "message"
+								}
+							}
+						],
+						"collectionReference": "$['results'][0]['tables'][0]['rows']",
+						"mapComplexValuesToString": true
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_REST_PBI_API",
+						"type": "DatasetReference",
+						"parameters": {
+							"AdminAPI": "datasets/fa3c94a0-9fc7-4f18-bf19-f898e2f22272/executeQueries"
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_ASQL_CORSI_GENERIC",
+						"type": "DatasetReference",
+						"parameters": {
+							"Schema": "dbo",
+							"Table": "PBIExport"
+						}
+					}
+				]
+			},
+			{
+				"name": "Copy_with_MI_PARTIAL_TABLE",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "POST",
+						"requestBody": "{\n  \"queries\": [\n    {\n      \"query\": \"EVALUATE TOPN(10000000, SELECTCOLUMNS('CV_DAILY_ORDER_DETAILS', \\\"brand\\\", 'CV_DAILY_ORDER_DETAILS'[brand], \\\"brandCode\\\", 'CV_DAILY_ORDER_DETAILS'[Brand Code], \\\"channelCode\\\", 'CV_DAILY_ORDER_DETAILS'[Channel Code], \\\"Gross Order\\\",[Gross Order]))\"\n    }\n  ]\n}\n",
+						"additionalHeaders": {
+							"Content-Type": "application/json"
+						},
+						"paginationRules": {
+							"supportRFC5988": "true"
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "DROP TABLE dbo.PBIExport",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"tableOption": "autoCreate",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "['[brand]']"
+								},
+								"sink": {
+									"name": "brand"
+								}
+							},
+							{
+								"source": {
+									"path": "['[brandCode]']"
+								},
+								"sink": {
+									"name": "brandCode",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['[channelCode]']"
+								},
+								"sink": {
+									"name": "channelCode",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['[Gross Order]']"
+								},
+								"sink": {
+									"name": "GrosdsOrder",
+									"type": "Decimal"
+								}
+							}
+						],
+						"collectionReference": "$['results'][0]['tables'][0]['rows']",
+						"mapComplexValuesToString": true
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_REST_PBI_API",
+						"type": "DatasetReference",
+						"parameters": {
+							"AdminAPI": "datasets/6f204b16-2549-48d3-a88b-e4d43145eb88/executeQueries"
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_ASQL_CORSI_GENERIC",
+						"type": "DatasetReference",
+						"parameters": {
+							"Schema": "dbo",
+							"Table": "PBIExport"
+						}
+					}
+				]
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2025-06-09T06:15:45Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

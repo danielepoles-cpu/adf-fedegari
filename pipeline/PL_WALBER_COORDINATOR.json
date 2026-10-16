@@ -1,0 +1,51 @@
+{
+	"name": "PL_WALBER_COORDINATOR",
+	"properties": {
+		"activities": [
+			{
+				"name": "Upload Files",
+				"type": "ExecutePipeline",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_WALBER_UPLOAD",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Load_Data",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Upload Files",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_LOOPPDV",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2024-10-31T17:36:03Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

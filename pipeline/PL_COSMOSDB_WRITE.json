@@ -1,0 +1,167 @@
+{
+	"name": "PL_COSMOSDB_WRITE",
+	"properties": {
+		"activities": [
+			{
+				"name": "CopyFromSQLToCosmosDB",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "CosmosDbSqlApiSink",
+						"writeBehavior": "insert"
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_ASQL_CORSI_GENERIC",
+						"type": "DatasetReference",
+						"parameters": {
+							"Schema": "dbo",
+							"Table": "Customers"
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_COSMOSDB_GENERIC",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "CopyFormCosmosDBToParquet",
+				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "CopyFromSQLToCosmosDB",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "CosmosDbSqlApiSource",
+						"query": "select * from c",
+						"preferredRegions": []
+					},
+					"sink": {
+						"type": "ParquetSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings",
+							"copyBehavior": "FlattenHierarchy"
+						},
+						"formatSettings": {
+							"type": "ParquetWriteSettings"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$['CustomerName']"
+								},
+								"sink": {
+									"name": "CustomerName"
+								}
+							},
+							{
+								"source": {
+									"path": "$['CustomerID']"
+								},
+								"sink": {
+									"name": "CustomerID"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Email']"
+								},
+								"sink": {
+									"name": "Email"
+								}
+							},
+							{
+								"source": {
+									"path": "$['PhoneNumber']"
+								},
+								"sink": {
+									"name": "PhoneNumber"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Address']"
+								},
+								"sink": {
+									"name": "Address"
+								}
+							},
+							{
+								"source": {
+									"path": "$['CreditLimit']"
+								},
+								"sink": {
+									"name": "CreditLimit"
+								}
+							},
+							{
+								"source": {
+									"path": "$['id']"
+								},
+								"sink": {
+									"name": "id"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_COSMOSDB_GENERIC",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_GENERIC_PARQUET",
+						"type": "DatasetReference",
+						"parameters": {
+							"filename": "customers.parquet"
+						}
+					}
+				]
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2025-05-16T13:42:24Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
